@@ -68,6 +68,8 @@ body.modal-opened #modal-wrapper {
 }
     #modal img {
         max-width: 100%;
+        margin: 0 auto;
+        display: block;
     }
 
 .modal-header {
@@ -81,4 +83,12 @@ body.modal-opened #modal-wrapper {
         color: #FFF;
         margin: 0 20px;
         line-height: 2.6em;
+    }
+
+.article-header {
+    display: flex;
+    list-style: none;
+}
+    .article-header li {
+        margin-right: 10px;
     }

@@ -1,5 +1,5 @@
-var CORS_PROXY = "https://cors-anywhere.herokuapp.com/",
-    RSS_URL = CORS_PROXY + 'https://getpocket.com/users/paulakfleck/feed/unread';
+var CORS = "https://cors-anywhere.herokuapp.com/",
+    RSS_URL = CORS + 'https://getpocket.com/users/paulakfleck/feed/unread';
 
 var articlesList = '<ul>';
 
@@ -19,63 +19,103 @@ $(document).ready(function () {
                     var title = el.find("title").text();
                     var link = el.find("link").text();
 
-                    articlesList += '<li>' + title + ' | <a class="article-mode" href="https://pushtokindle.fivefilters.org/send.php?context=iframe&url=' + link + '">Link<a></li>';
+                    articlesList += '<li>' + title + ' | <a class="article-mode" href="' + link + '">Link<a></li>';
                 });
                 articlesList += '</ul>';
 
                 document.querySelector('main').insertAdjacentHTML('beforeend', articlesList);
 
             } catch (error) {
+                // Detect errors on Kindle, since there's no console there
                 alert(error);
             }
         },
         error: function (err) {
-            // alert(err);
+            // Detect errors on Kindle, since there's no console there
+            alert(err);
         }
     });
 
     $(document).on('click', '.article-mode', function (e) {
         e.preventDefault();
-        try {
+        // try {
+            var url = CORS + $(this).attr('href'),
+                content = '';
+
+            Mercury.parse(url).then(function (result) {
+                if (result.error) {
+                    alert(result.message);
+
+                } else {
+                    console.log(result);
     
-            $.ajax({
-                url: 'https://cors-anywhere.herokuapp.com/' + $(this).attr('href'),
-                type: 'GET',
-                success: function(res) {
-                    // then you can manipulate your text as you wish
+                    var date = new Date(result.date_published),
+                        imgSrc = result.lead_image_url,
+                        title = result.title,
+                        author = result.author,
+                        url = result.url,
+                        content = result.content;
+    
+                    if (imgSrc) {
+                        imgSrc = imgSrc.split('.');
+                        imgSrc = imgSrc[imgSrc.length - 1];
 
-                    res = res.replace('<link rel="stylesheet" href="css/ebook.css" type="text/css" />', '');
+                        // If any image found in the article, do not place image at the top of the article.
+                        if (result.content.indexOf(imgSrc) === -1) {
+                            document.getElementById('article-img').src = result.lead_image_url;
+                        }
+                    }
+    
+                    if (title) {
+                        document.getElementById('article-title').innerHTML = title;
+                    }
 
+                    if (author) {
+                        document.getElementById('article-author').innerHTML = author;
+                    }
+
+                    if (date) {
+                        document.getElementById('article-date').innerHTML = (date.getMonth() + 1) + '.' + date.getDate() + '.' + date.getFullYear();
+                    }
+
+                    if (url) {
+                        document.getElementById('article-url').href = url.replace(CORS, '');
+                    }
+
+                    if (content) {
+                        document.getElementById('article-content').innerHTML = content;
+                    }
+    
                     document.querySelector('body').classList.add('modal-opened');
-                    document.getElementById('modal').insertAdjacentHTML('beforeend', res);
                 }
             });
-        } catch (error) {
-            alert(error);
-        }
+        // } catch (error) {
+        //     // Detect errors on Kindle, since there's no console there
+        //     alert(error);
+        // }
     });
 
-    $(document).on('click', '.btn-back', function(e) {
-        e.preventDefault();
-        document.querySelector('body').classList.remove('modal-opened');
-        document.getElementById('modal').innerHTML = '';
-        document.body.scrollTop = 0; // For Safari
-        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-    });
+    // $(document).on('click', '.btn-back', function(e) {
+    //     e.preventDefault();
+    //     document.querySelector('body').classList.remove('modal-opened');
+    //     document.getElementById('modal').innerHTML = '';
+    //     document.body.scrollTop = 0; // For Safari
+    //     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    // });
 
-    $(document).on('click', '.btn-top', function(e) {
-        e.preventDefault();
-        try {
-            window.scroll({
-                top: 0,
-                left: 0,
-                behavior: 'smooth'
-              });
-            alert('top worked!');
-        } catch (error) {
-            alert(error);
-        }
-    });
+    // $(document).on('click', '.btn-top', function(e) {
+    //     e.preventDefault();
+    //     try {
+    //         window.scroll({
+    //             top: 0,
+    //             left: 0,
+    //             behavior: 'smooth'
+    //           });
+    //         alert('top worked!');
+    //     } catch (error) {
+    //         alert(error);
+    //     }
+    // });
 
 
 });

@@ -1,29 +1,48 @@
 <html>
 
 <head>
-    <title>Ultimate RSS Parser for Kindle</title>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="rss-parser.js"></script>
+    <title>Article reader for Kindle with RSS</title>
     <link rel="stylesheet" type="text/css" href="normalize.css">
     <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 
 <body>
-    <h1 name="top">Ultimate RSS Parser for Kindle</h1>
+    <h1 name="top">Article reader for Kindle with RSS</h1>
 
     <!-- <label>
         Place here your RSS link:
     </label>
     <input type=text placeholder="https://getpocket.com/users/USERNAME/feed/unread" /> -->
 
-    <main></main>
+    <main>
+    </main>
 
     <div id="modal-wrapper">
-        <div id="modal"></div>
+        <div id="modal">
+            <h1 id="article-title"></h1>
+            <ul class='article-header'>
+                <li id="article-author"></li>
+                <li>|</li>
+                <li id="article-date"></li>
+                <li>|</li>
+                <li>
+                    <a href="#" target="_blank" id="article-url">Link to original article</a>
+                </li>
+            </ul>
+            
+            <img src="" alt="" id="article-img" />
+
+            <div id="article-content"></div>
+        </div>
         <div class="modal-header">
             <a href="#" class="btn-back">Back</a>
             <a href="#top">Top</a>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="node_modules/@postlight/mercury-parser/dist/mercury.web.js"></script>
+    <script src="rss-parser.js"></script>
 </body>
+
 </html>
