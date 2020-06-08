@@ -49,10 +49,8 @@ $(document).ready(function () {
                 } else {
                     console.log(result);
     
-                    var date = new Date(result.date_published),
-                        imgSrc = result.lead_image_url,
+                    var imgSrc = result.lead_image_url,
                         title = result.title,
-                        author = result.author,
                         url = result.url,
                         content = result.content;
     
@@ -68,14 +66,6 @@ $(document).ready(function () {
     
                     if (title) {
                         document.getElementById('article-title').innerHTML = title;
-                    }
-
-                    if (author) {
-                        document.getElementById('article-author').innerHTML = author;
-                    }
-
-                    if (date) {
-                        document.getElementById('article-date').innerHTML = (date.getMonth() + 1) + '.' + date.getDate() + '.' + date.getFullYear();
                     }
 
                     if (url) {
