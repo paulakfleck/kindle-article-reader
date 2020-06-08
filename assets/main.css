@@ -27,6 +27,11 @@ body {
     width: 100%;
 }
 
+input {
+    width: 100%;
+    margin: 10px 0;
+}
+
 h1 {
     font-size: 1.8em;
 }
