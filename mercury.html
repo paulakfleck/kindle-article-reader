@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <script src="node_modules/@postlight/mercury-parser/dist/mercury.web.js"></script>
+    </head>
+    <body>
+        <main></main>
+        <script>
+            // import Mercury from "@postlight/mercury-parser/dist/";
+            // const Mercury = require("@postlight/mercury-parser");
+            var CORS_PROXY = "https://cors-anywhere.herokuapp.com/";
+            // const url= CORS_PROXY + "https://trackchanges.postlight.com/building-awesome-cms-f034344d8ed";
+            const url= CORS_PROXY + "https://getpocket.com/explore/item/the-complete-guide-to-memory?utm_source=pocket&utm_medium=email&utm_campaign=pockethits";
+            Mercury.parse(url).then(function(result) {
+                console.log(result);
+                document.querySelector('main').innerHTML = result.content;
+            });
+
+        </script>
+    </body>
+</html>
