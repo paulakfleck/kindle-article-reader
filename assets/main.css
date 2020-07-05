@@ -68,6 +68,7 @@ body.modal-opened #modal-wrapper {
     width: 100%;
     z-index: 999;
     padding: 2rem;
+    min-height: 700px;
 }
     #modal img {
         display: block;

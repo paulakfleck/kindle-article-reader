@@ -15,6 +15,8 @@ function getAndParseRss() {
         
         RSS_URL = CORS + rssLink;
 
+        document.getElementById('rss-input').insertAdjacentHTML('beforeend', 'Loading...');
+
         $.ajax(RSS_URL, {
             accepts: {
                 xml: 'application/rss+xml'
@@ -37,13 +39,15 @@ function getAndParseRss() {
                     document.querySelector('main').insertAdjacentHTML('beforeend', articlesList);
     
                 } catch (error) {
+                    console.error(error);
                     // Detect errors on Kindle, since there's no console there
-                    alert(error);
+                    // alert(error);
                 }
             },
-            error: function (err) {
+            error: function (error) {
+                console.error(error);
                 // Detect errors on Kindle, since there's no console there
-                alert('failed');
+                // alert('failed');
             }
         });
     }
@@ -68,6 +72,9 @@ $(document).ready(function () {
         // try {
         var url = CORS + MERCURY + $(this).attr('href');
 
+        document.querySelector('body').classList.add('modal-opened');
+        document.getElementById('modal').insertAdjacentHTML('beforeend', 'Loading article...');
+
         e.preventDefault();
         try {
     
@@ -84,12 +91,12 @@ $(document).ready(function () {
                         res = res.replace(/amp-img/g, 'img');
                     }
                     
-                    document.querySelector('body').classList.add('modal-opened');
                     document.getElementById('modal').insertAdjacentHTML('beforeend', res);
                 }
             });
         } catch (error) {
-            alert(error);
+            // alert(error);
+            console.error(error);
         }
     });
 });
