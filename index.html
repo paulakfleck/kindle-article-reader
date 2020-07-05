@@ -1,0 +1,54 @@
+<html>
+
+<head>
+    <title>Article reader for Kindle with RSS</title>
+    <link rel="stylesheet" type="text/css" href="./assets/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./assets/main.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- <script src="node_modules/@postlight/mercury-parser/dist/mercury.web.js"></script> -->
+    <script src="./assets/script.js"></script>
+</head>
+
+<body>
+    <h1 name="top">Article reader for Kindle with RSS</h1>
+
+    <div id="rss-input">
+        <form action="#" method="GET">
+            <label>
+                Place here your RSS link:
+            </label>
+            <input type="text" name="rssLink" placeholder="i.e.: https://getpocket.com/users/USERNAME/feed/unread" />
+            <button>GO!</button>
+        </form>
+    </div>
+
+    <main>
+    </main>
+
+    <!-- <div id="modal-wrapper">
+        <div id="modal">
+            <h1 id="article-title"></h1>
+            
+            <a href="#" target="_blank" id="article-url">Link to original article</a>
+            
+            <img src="" alt="" id="article-img" />
+
+            <div id="article-content"></div>
+        </div>
+        <div class="modal-header">
+            <a href="#" class="btn-back">Back</a>
+            <a href="#top">Top</a>
+        </div>
+    </div> -->
+
+    <div id="modal-wrapper">
+        <div id="modal"></div>
+        <!-- <div class="modal-header">
+            <a href="#" class="btn-back">Back</a>
+            <a href="#top">Top</a>
+        </div> -->
+    </div>
+
+</body>
+
+</html>

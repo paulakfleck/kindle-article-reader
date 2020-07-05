@@ -1,0 +1,22 @@
+{
+  "name": "kindle-article-reader",
+  "version": "1.0.0-beta",
+  "description": "A reader for Kindle's experimental browser, using RSS.",
+  "main": "rss-parser.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paulakfleck/kindle-article-reader.git"
+  },
+  "author": "Paula Fleck",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/paulakfleck/kindle-article-reader/issues"
+  },
+  "homepage": "https://github.com/paulakfleck/kindle-article-reader#readme",
+  "dependencies": {
+    "@postlight/mercury-parser": "^2.2.0"
+  }
+}

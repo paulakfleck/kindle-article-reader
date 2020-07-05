@@ -1,0 +1,139 @@
+@font-face {
+    font-family: 'ITC Charter';
+    font-style: normal;
+    font-weight: normal;
+    src: url('fonts/CharterITCbyBT-Roman.woff2') format('woff2'),
+        url('fonts/CharterITCbyBT-Roman.woff') format('woff');
+}
+
+* {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+html {
+    font-family: 'ITC Charter';
+    font-size: 62.5%;
+    font-style: normal;
+    font-weight: normal;
+    width: 100%;
+}
+
+body {
+    display: block;
+    font-size: 1.6rem;
+    padding: 2rem;
+    width: 100%;
+}
+
+input {
+    width: 100%;
+    margin: 10px 0;
+}
+
+h1 {
+    font-size: 2.8rem;
+}
+
+main ul {
+    display: inline-block;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+    main ul li {
+        border: solid 1px #000;
+        margin: 1rem 0;
+        padding: 1rem;
+        width: 100%;
+    }
+
+body.modal-opened #modal-wrapper {
+    display: block;
+}
+
+#modal-wrapper {
+    background: white;
+    display: none;
+    left: 0;
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    width: 100%;
+}
+
+#modal {
+    width: 100%;
+    z-index: 999;
+    padding: 2rem;
+}
+    #modal img {
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+        height: auto;
+    }
+
+.modal-header {
+    background: #000;
+    bottom: 0;
+    display: inline-block;
+    height: 35px;
+    left: 0;
+    position: fixed;
+    z-index: 9;
+    width: 100%;
+}
+    .modal-header a {
+        color: #FFF;
+        line-height: 2.6rem;
+        margin: 0 20px;
+        text-transform: uppercase;
+    }
+
+.article-header {
+    display: flex;
+    list-style: none;
+}
+    .article-header li {
+        margin-right: 10px;
+    }
+
+.hg-brand-header a {
+    text-decoration: none;
+    font-style: italic;
+}
+
+.hg-brand-header-name {
+    width: 100%;
+}
+    .hg-brand-header-name:before {
+        content: 'Original article: ';
+    }
+
+.hg-article-body,
+.hg-article-body p {
+    font-size: 1.7rem;
+    line-height: 2.4rem;
+}
+
+.hg-social-logo-block {
+    display: none !important;
+}
+
+.powered-by a {
+    text-decoration: none;
+    color: gray;
+}
+
+.powered-by-text {
+    text-align: left;
+    font-size: 1.1rem;
+    color: gray;
+}
+
+.powered-by-logo img {
+    margin: 1rem 0 !important;
+}
