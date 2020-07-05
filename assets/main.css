@@ -22,8 +22,8 @@ html {
 
 body {
     display: block;
-    font-size: 1.6em;
-    padding: 2em;
+    font-size: 1.6rem;
+    padding: 2rem;
     width: 100%;
 }
 
@@ -33,7 +33,7 @@ input {
 }
 
 h1 {
-    font-size: 1.8em;
+    font-size: 2.8rem;
 }
 
 main ul {
@@ -45,8 +45,8 @@ main ul {
 }
     main ul li {
         border: solid 1px #000;
-        margin: 1em 0;
-        padding: 1em;
+        margin: 1rem 0;
+        padding: 1rem;
         width: 100%;
     }
 
@@ -67,14 +67,13 @@ body.modal-opened #modal-wrapper {
 #modal {
     width: 100%;
     z-index: 999;
-    padding: 2em;
-    font-size: 1.1em;
-    line-height: 1.6em;
+    padding: 2rem;
 }
     #modal img {
         display: block;
         margin: 0 auto;
         max-width: 100%;
+        height: auto;
     }
 
 .modal-header {
@@ -89,7 +88,7 @@ body.modal-opened #modal-wrapper {
 }
     .modal-header a {
         color: #FFF;
-        line-height: 2.6em;
+        line-height: 2.6rem;
         margin: 0 20px;
         text-transform: uppercase;
     }
@@ -101,3 +100,40 @@ body.modal-opened #modal-wrapper {
     .article-header li {
         margin-right: 10px;
     }
+
+.hg-brand-header a {
+    text-decoration: none;
+    font-style: italic;
+}
+
+.hg-brand-header-name {
+    width: 100%;
+}
+    .hg-brand-header-name:before {
+        content: 'Original article: ';
+    }
+
+.hg-article-body,
+.hg-article-body p {
+    font-size: 1.7rem;
+    line-height: 2.4rem;
+}
+
+.hg-social-logo-block {
+    display: none !important;
+}
+
+.powered-by a {
+    text-decoration: none;
+    color: gray;
+}
+
+.powered-by-text {
+    text-align: left;
+    font-size: 1.1rem;
+    color: gray;
+}
+
+.powered-by-logo img {
+    margin: 1rem 0 !important;
+}
