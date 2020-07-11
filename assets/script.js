@@ -7,36 +7,41 @@ var MERCURY = 'https://mercury.postlight.com/amp?url=',
     RSS_URL;
 
 function getAndParseRss() {
+    var $rssInput = document.getElementById('rss-input'),
+    $main = document.querySelector('main');
+
     if (currUrl.indexOf('?rssLink=') > -1) {
 
         // Get link from URL
         rssLink = currUrl.split('?rssLink=');
-        rssLink = decodeURIComponent(rssLink[1]);
-        
+        rssLink = rssLink[1];
+        rssLink = rssLink.split('#');
+        rssLink = decodeURIComponent(rssLink[0]);
+
         RSS_URL = CORS + rssLink;
 
-        document.getElementById('rss-input').insertAdjacentHTML('beforeend', 'Loading...');
+        $rssInput.insertAdjacentHTML('beforeend', 'Loading...');
 
         $.ajax(RSS_URL, {
-            accepts: {
-                xml: 'application/rss+xml'
-            },
+            accepts: {xml: 'application/rss+xml'},
             dataType: 'xml',
             success: function (data) {
                 try {
-                    document.getElementById('rss-input').style.display = 'none';
+                    $rssInput.style.display = 'none';
 
-                    $(data).find('item').each(function () {
-                        var el = $(this);
-    
-                        var title = el.find('title').text();
-                        var link = el.find('link').text();
-    
-                        articlesList += '<li>' + title + ' | <a class="article-mode" href="' + link + '">Link<a></li>';
+                    $(data).find('item').each(function (index) {
+                        var $item = $(this),
+                        title = $item.find('title').text(),
+                        link = $item.find('link').text();
+
+                        articlesList += '<li>' + title + ' | <a id="article-id-'+ index +'" href="#article-id-'+ index +'" class="article-mode" mercury-url="' + link + '">Link<a></li>';
                     });
+
                     articlesList += '</ul>';
     
-                    document.querySelector('main').insertAdjacentHTML('beforeend', articlesList);
+                    $main.insertAdjacentHTML('beforeend', articlesList);
+
+                    loadArticle();
     
                 } catch (error) {
                     console.error(error);
@@ -61,21 +66,32 @@ function isDev() {
     }
 }
 
-$(document).ready(function () {
+function isParameter(param) {
+    return currUrl.indexOf(param) > -1 ? true : false;
+}
 
-    if (!isDev()) {
-        getAndParseRss();
-    }
+function getArticleId() {
+    // Get link from URL
+    articleId = currUrl.split('#');
+    return articleId[1];
 
-    $(document).on('click', '.article-mode', function (e) {
-        e.preventDefault();
-        // try {
-        var url = CORS + MERCURY + $(this).attr('href');
+}
 
-        document.querySelector('body').classList.add('modal-opened');
-        document.getElementById('modal').insertAdjacentHTML('beforeend', 'Loading article...');
+function loadArticle() {
 
-        e.preventDefault();
+    var $body = document.querySelector('body'),
+        $modal = document.getElementById('modal');
+
+    if (isParameter('article-id-')) {
+        console.warn('loading article...');
+
+        var $article = document.getElementById(getArticleId()),
+            url = CORS + MERCURY + $article.getAttribute('mercury-url');
+
+        $modal.innerHTML = "";
+        $body.classList.add('modal-opened');
+        $modal.insertAdjacentHTML('beforeend', 'Loading article...');
+
         try {
     
             $.ajax({
@@ -83,20 +99,41 @@ $(document).ready(function () {
                 type: 'GET',
                 success: function(res) {
 
+                    $modal.innerHTML = "";
+
                     res = res.split('<main class="hg-article-container" role="main">');
                     res = res[1];
 
-                    
+                    // Fix <amp-img> 
                     if (res.indexOf('amp-img') > -1) {
                         res = res.replace(/amp-img/g, 'img');
                     }
                     
-                    document.getElementById('modal').insertAdjacentHTML('beforeend', res);
+                    $modal.insertAdjacentHTML('beforeend', res);
                 }
             });
         } catch (error) {
-            // alert(error);
             console.error(error);
         }
-    });
+
+    } else {
+        // hide modal box
+        console.warn('hiding modal...');
+
+        $modal.innerHTML = "";
+        $body.classList.remove('modal-opened');
+    }
+}
+
+$(document).ready(function () {
+
+    if (!isDev()) {
+        getAndParseRss();
+    }
 });
+
+window.onhashchange = function() { 
+    console.log('onhashchange!');
+    
+    loadArticle();
+}
