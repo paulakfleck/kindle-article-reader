@@ -1,14 +1,14 @@
 // kindle does not support const
 var MERCURY = 'https://mercury.postlight.com/amp?url=',
     CORS = 'https://cors-anywhere.herokuapp.com/',
-    currUrl = location.href,
     articlesList = '<ul>',
     rssLink,
     RSS_URL;
 
 function getAndParseRss() {
     var $rssInput = document.getElementById('rss-input'),
-    $main = document.querySelector('main');
+        $main = document.querySelector('main'),
+        currUrl = location.href;
 
     if (currUrl.indexOf('?rssLink=') > -1) {
 
@@ -59,7 +59,10 @@ function getAndParseRss() {
 
 }
 
+// Show userAgent from browser
 function isDev() {
+    var currUrl = location.href;
+
     if (currUrl.indexOf('isDev') > -1) {
         document.write(navigator.userAgent);
         return true;
@@ -67,14 +70,20 @@ function isDev() {
 }
 
 function isParameter(param) {
+
+    
+    var currUrl = location.href;
+    
+    console.log('is param?', currUrl.indexOf(param) > -1 ? true : false);
     return currUrl.indexOf(param) > -1 ? true : false;
 }
 
 function getArticleId() {
+    var currUrl = location.href;
+
     // Get link from URL
     articleId = currUrl.split('#');
     return articleId[1];
-
 }
 
 function loadArticle() {
@@ -82,58 +91,71 @@ function loadArticle() {
     var $body = document.querySelector('body'),
         $modal = document.getElementById('modal');
 
+        createModal($modal);
+
     if (isParameter('article-id-')) {
         console.warn('loading article...');
 
         var $article = document.getElementById(getArticleId()),
             url = CORS + MERCURY + $article.getAttribute('mercury-url');
 
+        // Clean modal before loading new article
+        // window.scrollTo(0,0);
+        // window.scrollTo({ top: 0});
+        // ! https://zengabor.github.io/zenscroll/
+        $(window).scrollTop(0);
+
         $modal.innerHTML = "";
         $body.classList.add('modal-opened');
         $modal.insertAdjacentHTML('beforeend', 'Loading article...');
 
-        try {
-    
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function(res) {
+        // try {
+        //     // Call new article URL
+        //     $.ajax({
+        //         url: url,
+        //         type: 'GET',
+        //         success: function(res) {
 
-                    $modal.innerHTML = "";
+        //             $modal.innerHTML = "";
 
-                    res = res.split('<main class="hg-article-container" role="main">');
-                    res = res[1];
+        //             res = res.split('<main class="hg-article-container" role="main">');
+        //             res = res[1];
 
-                    // Fix <amp-img> 
-                    if (res.indexOf('amp-img') > -1) {
-                        res = res.replace(/amp-img/g, 'img');
-                    }
+        //             // Fix <amp-img> to <img>
+        //             if (res.indexOf('amp-img') > -1) {
+        //                 res = res.replace(/amp-img/g, 'img');
+        //             }
                     
-                    $modal.insertAdjacentHTML('beforeend', res);
-                }
-            });
-        } catch (error) {
-            console.error(error);
-        }
+        //             $modal.insertAdjacentHTML('beforeend', res);
+        //         }
+        //     });
+        // } catch (error) {
+        //     console.error(error);
+        // }
 
     } else {
         // hide modal box
-        console.warn('hiding modal...');
+        console.warn('no article to be shown, hiding modal...');
 
         $modal.innerHTML = "";
         $body.classList.remove('modal-opened');
     }
 }
 
-$(document).ready(function () {
+function createModal($modal) {
+    var $controls = document.getElementById('article-controls');
 
+    $modal.style.height = window.innerHeight - 30;
+}
+
+$(document).ready(function () {
     if (!isDev()) {
         getAndParseRss();
     }
 });
 
 window.onhashchange = function() { 
-    console.log('onhashchange!');
+    console.info('onhashchange event');
     
     loadArticle();
 }
