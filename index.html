@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <h1 name="top">Article reader for Kindle with RSS</h1>
+    <h1 name="top">Article reader for Kindle</h1>
 
     <div id="rss-input">
         <form action="#" method="GET">
@@ -25,18 +25,46 @@
         <div id="modal"></div>
 
         <ul id="article-controls">
-            <!-- <li>
-                <a href="javascript:window.history.back();" id="back-home">BACK</a>
-            </li> -->
-            <li>                
-                <a href="#">Top</a>
-            </li>
+            <li onclick="scrollUp()">UP</li>
+            <li onclick="scrollDown()">DOWN</li>
+            <li id="close"><a href="#">CLOSE</a></li>
+            <li onclick="goTop()" id="go-top">TOP</li>
         </ul>
     </div>
     
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="./assets/zenscroll-min.js"></script>
     <script>zenscroll.setup(null, 0);</script>
+    <script>
+
+        var defaultDuration = 500
+        var edgeOffset = 30
+        var myDiv = document.getElementById("modal")
+        var myScroller = zenscroll.createScroller(myDiv, defaultDuration, edgeOffset);
+        var x = 0;
+
+        function scrollDown () {
+            x = x + window.innerHeight - 150;
+
+            myScroller.toY(x);
+        }
+
+        function scrollUp () {
+            x = x - window.innerHeight + 150;
+
+            if (x <= 0) {
+                x = 0;
+            }
+
+            myScroller.toY(x);
+        }
+
+        function goTop() {
+            x = 0;
+
+            myScroller.toY(x);
+        }
+    </script>
     <script src="./assets/script.js"></script>
 </body>
 
