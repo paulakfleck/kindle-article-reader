@@ -109,29 +109,29 @@ function loadArticle() {
         $body.classList.add('modal-opened');
         $modal.insertAdjacentHTML('beforeend', 'Loading article...');
 
-        // try {
-        //     // Call new article URL
-        //     $.ajax({
-        //         url: url,
-        //         type: 'GET',
-        //         success: function(res) {
+        try {
+            // Call new article URL
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(res) {
 
-        //             $modal.innerHTML = "";
+                    $modal.innerHTML = "";
 
-        //             res = res.split('<main class="hg-article-container" role="main">');
-        //             res = res[1];
+                    res = res.split('<main class="hg-article-container" role="main">');
+                    res = res[1];
 
-        //             // Fix <amp-img> to <img>
-        //             if (res.indexOf('amp-img') > -1) {
-        //                 res = res.replace(/amp-img/g, 'img');
-        //             }
+                    // Fix <amp-img> to <img>
+                    if (res.indexOf('amp-img') > -1) {
+                        res = res.replace(/amp-img/g, 'img');
+                    }
                     
-        //             $modal.insertAdjacentHTML('beforeend', res);
-        //         }
-        //     });
-        // } catch (error) {
-        //     console.error(error);
-        // }
+                    $modal.insertAdjacentHTML('beforeend', res);
+                }
+            });
+        } catch (error) {
+            alert(error);
+        }
 
     } else {
         // hide modal box
