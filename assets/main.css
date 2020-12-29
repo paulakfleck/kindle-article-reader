@@ -72,6 +72,7 @@ body.modal-opened main {
     z-index: 999;
     padding: 2rem;
     overflow: scroll;
+    position: relative;
 }
     #modal img {
         display: block;
@@ -79,6 +80,11 @@ body.modal-opened main {
         max-width: 100%;
         height: auto;
     }
+
+.article-mode:active,
+.article-mode:visited {
+    color: gray;
+}
 
 .modal-header {
     background: #000;
@@ -112,6 +118,7 @@ body.modal-opened main {
 
 .hg-brand-header-name {
     width: 100%;
+    margin-bottom: 10px;
 }
     .hg-brand-header-name:before {
         content: 'Original article: ';
@@ -154,10 +161,17 @@ body.modal-opened main {
 }
     #article-controls li {
         float: left;
+        margin: 0 10px;
     }
-    #article-controls a {
+        #article-controls li#go-back,
+        #article-controls li#go-top,
+        #article-controls li#close {
+            float: right;
+        }
+    #article-controls a,
+    #article-controls li {
         text-decoration: none;
         color: white;
         font-family: Arial, Helvetica, sans-serif;
-        font-weight: bolder;
+        font-weight: bold;
     }
