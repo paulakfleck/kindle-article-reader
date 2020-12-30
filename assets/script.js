@@ -5,6 +5,36 @@ var MERCURY = 'https://mercury.postlight.com/amp?url=',
     rssLink,
     RSS_URL;
 
+
+var $modal = document.getElementById('modal');
+
+var defaultDuration = 500,
+    edgeOffset = 30
+    myScroller = zenscroll.createScroller($modal, defaultDuration, edgeOffset),
+    x = 0;
+
+function scrollDown () {
+    x = x + window.innerHeight - 150;
+
+    myScroller.toY(x);
+}
+
+function scrollUp () {
+    x = x - window.innerHeight + 150;
+
+    if (x <= 0) {
+        x = 0;
+    }
+
+    myScroller.toY(x);
+}
+
+function goTop() {
+    x = 0;
+
+    myScroller.toY(x);
+}
+
 function getAndParseRss() {
     var $rssInput = document.getElementById('rss-input'),
         $main = document.querySelector('main'),
@@ -34,7 +64,7 @@ function getAndParseRss() {
                         title = $item.find('title').text(),
                         link = $item.find('link').text();
 
-                        articlesList += '<li>' + title + ' | <a id="article-id-'+ index +'" href="#article-id-'+ index +'" class="article-mode" mercury-url="' + link + '">Link<a></li>';
+                        articlesList += '<li>' + title + ' | <a id="id-article-id-'+ index +'" href="#article-id-'+ index +'" class="article-mode" mercury-url="' + link + '">Link<a></li>';
                     });
 
                     articlesList += '</ul>';
@@ -69,9 +99,7 @@ function isDev() {
     }
 }
 
-function isParameter(param) {
-
-    
+function isParameter(param) {    
     var currUrl = location.href;
     
     console.log('is param?', currUrl.indexOf(param) > -1 ? true : false);
@@ -87,71 +115,83 @@ function getArticleId() {
 }
 
 function loadArticle() {
+    var $body = document.querySelector('body');
+    
+    var bodyScroll = zenscroll.createScroller($body, defaultDuration, edgeOffset);
+    bodyScroll.toY(0);
 
-    var $body = document.querySelector('body'),
-        $modal = document.getElementById('modal');
+    //     createModal($modal);
 
-        createModal($modal);
+    // if (isParameter('article-id-')) {
+    //     console.warn('loading article...');
 
-    if (isParameter('article-id-')) {
-        console.warn('loading article...');
+    //     var $article = document.getElementById('id-' + getArticleId()),
+    //         url = CORS + MERCURY + $article.getAttribute('mercury-url');
 
-        var $article = document.getElementById(getArticleId()),
-            url = CORS + MERCURY + $article.getAttribute('mercury-url');
+    //     // Clean modal before loading new article
+    //     $modal.innerHTML = "";
+    //     $body.classList.add('modal-opened');
+    //     $modal.insertAdjacentHTML('beforeend', 'Loading article...');
 
-        // Clean modal before loading new article
-        // window.scrollTo(0,0);
-        // window.scrollTo({ top: 0});
-        // ! https://zengabor.github.io/zenscroll/
-        $(window).scrollTop(0);
+    //     try {
+    //         // Call new article URL
+    //         $.ajax({
+    //             url: url,
+    //             type: 'GET',
+    //             success: function(res) {
 
-        $modal.innerHTML = "";
-        $body.classList.add('modal-opened');
-        $modal.insertAdjacentHTML('beforeend', 'Loading article...');
+    //                 $modal.innerHTML = "";
 
-        try {
-            // Call new article URL
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function(res) {
+    //                 res = res.split('<main class="hg-article-container" role="main">');
+    //                 res = res[1];
 
-                    $modal.innerHTML = "";
-
-                    res = res.split('<main class="hg-article-container" role="main">');
-                    res = res[1];
-
-                    // Fix <amp-img> to <img>
-                    if (res.indexOf('amp-img') > -1) {
-                        res = res.replace(/amp-img/g, 'img');
-                    }
+    //                 // Fix <amp-img> to <img>
+    //                 if (res.indexOf('amp-img') > -1) {
+    //                     res = res.replace(/amp-img/g, 'img');
+    //                 }
                     
-                    $modal.insertAdjacentHTML('beforeend', res);
-                }
-            });
-        } catch (error) {
-            alert(error);
-        }
+    //                 $modal.insertAdjacentHTML('beforeend', res);
+    //             }
+    //         });
+    //     } catch (error) {
+    //         alert(error);
+    //     }
 
-    } else {
-        // hide modal box
-        console.warn('no article to be shown, hiding modal...');
+    // } else {
+    //     // hide modal box
+    //     console.warn('no article to be shown, hiding modal...');
 
-        $modal.innerHTML = "";
-        $body.classList.remove('modal-opened');
-    }
+    //     $modal.innerHTML = "";
+    //     $body.classList.remove('modal-opened');
+    // }
 }
 
 function createModal($modal) {
     var $controls = document.getElementById('article-controls');
 
-    $modal.style.height = window.innerHeight - 30;
+    $modal.style.height = window.innerHeight - 45;
+
+    console.log('window height', window.innerHeight);
+    console.log('controls height', $controls.offsetHeight);
+    console.log(window.innerHeight - $controls.offsetHeight);
 }
 
 $(document).ready(function () {
     if (!isDev()) {
         getAndParseRss();
     }
+
+    $('#scroll-up').on('click', function() {
+        scrollUp();
+    });
+
+    $('#scroll-down').on('click', function() {
+        scrollDown();
+    });
+
+    $('#go-top').on('click', function() {
+        goTop();
+    });
 });
 
 window.onhashchange = function() { 
