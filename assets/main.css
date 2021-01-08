@@ -18,6 +18,7 @@ html {
     font-style: normal;
     font-weight: normal;
     width: 100%;
+    position: relative;
 }
 
 body {
@@ -25,7 +26,24 @@ body {
     font-size: 1.6rem;
     padding: 2rem;
     width: 100%;
+}
+
+body.overflow,
+html.overflow {
+    overflow: hidden;
+}
+
+body.loading #content,    
+body.modal-opened #content {    
     position: relative;
+    height: 300px;
+    overflow: hidden;
+}
+
+#content {    
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 input {

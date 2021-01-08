@@ -1,4 +1,5 @@
 <html>
+
 <head>
     <title>Article reader for Kindle with RSS</title>
     <link rel="stylesheet" type="text/css" href="./assets/normalize.css">
@@ -18,7 +19,7 @@
         </form>
     </div>
 
-    <main></main>
+    <main id="content"></main>
 
     <div id="modal-wrapper">
         <div id="modal"></div>
@@ -30,28 +31,28 @@
                 <span id="scroll-up">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="16.701" viewBox="0 0 32 16.701">
                         <g id="up-arrow" transform="translate(0.001 -117.257)">
-                          <path id="Path_3" data-name="Path 3" d="M31.668,132.665,16.421,117.459a.694.694,0,0,0-.98,0L.194,132.665a.692.692,0,0,0,.98.977L15.93,118.926l14.756,14.718a.692.692,0,0,0,.98-.977Z" transform="translate(0)" fill="#ffc107"/>
-                          <path id="Path_4" data-name="Path 4" d="M31.3,133.958a.7.7,0,0,1-.493-.2l-14.816-14.8-14.816,14.8a.7.7,0,0,1-.984-.983L15.5,117.481a.7.7,0,0,1,.984,0L31.8,132.772a.7.7,0,0,1-.493,1.186Z" transform="translate(0)"/>
+                            <path id="Path_3" data-name="Path 3" d="M31.668,132.665,16.421,117.459a.694.694,0,0,0-.98,0L.194,132.665a.692.692,0,0,0,.98.977L15.93,118.926l14.756,14.718a.692.692,0,0,0,.98-.977Z" transform="translate(0)" fill="#ffc107" />
+                            <path id="Path_4" data-name="Path 4" d="M31.3,133.958a.7.7,0,0,1-.493-.2l-14.816-14.8-14.816,14.8a.7.7,0,0,1-.984-.983L15.5,117.481a.7.7,0,0,1,.984,0L31.8,132.772a.7.7,0,0,1-.493,1.186Z" transform="translate(0)" />
                         </g>
-                    </svg>                  
+                    </svg>
                 </span>
 
                 <span id="scroll-down">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="16.704" viewBox="0 0 32 16.704">
                         <g id="down-arrow" transform="translate(0 -117.272)">
-                          <path id="Path_1" data-name="Path 1" d="M30.8,117.484,16,132.285l-14.8-14.8a.7.7,0,0,0-.983.983L15.51,133.759a.7.7,0,0,0,.983,0l15.294-15.292a.7.7,0,1,0-.966-1l-.017.017Z" fill="#ffc107"/>
-                          <path id="Path_2" data-name="Path 2" d="M15.981,133.976a.7.7,0,0,1-.492-.2L.195,118.47a.7.7,0,0,1,.983-.984l14.8,14.81,14.8-14.812a.7.7,0,1,1,1,.966l-.017.017-15.294,15.3A.7.7,0,0,1,15.981,133.976Z" transform="translate(0)"/>
+                            <path id="Path_1" data-name="Path 1" d="M30.8,117.484,16,132.285l-14.8-14.8a.7.7,0,0,0-.983.983L15.51,133.759a.7.7,0,0,0,.983,0l15.294-15.292a.7.7,0,1,0-.966-1l-.017.017Z" fill="#ffc107" />
+                            <path id="Path_2" data-name="Path 2" d="M15.981,133.976a.7.7,0,0,1-.492-.2L.195,118.47a.7.7,0,0,1,.983-.984l14.8,14.81,14.8-14.812a.7.7,0,1,1,1,.966l-.017.017-15.294,15.3A.7.7,0,0,1,15.981,133.976Z" transform="translate(0)" />
                         </g>
-                    </svg>                  
+                    </svg>
                 </span>
             </li>
-            
+
             <li id="close"><a href="#">CLOSE</a></li>
         </ul>
     </div>
 
     <div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
-    
+
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="./assets/zenscroll-min.js"></script>
     <script>zenscroll.setup(null, 0);</script>

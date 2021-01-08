@@ -1,25 +1,24 @@
-// kindle does not support const
+// Warn - kindle browser does not support const or any other modern ECMAScript
 var MERCURY = 'https://mercury.postlight.com/amp?url=',
     CORS = 'https://cors-anywhere.herokuapp.com/',
     articlesList = '<ul>',
     rssLink,
     RSS_URL;
 
-
 var $modal = document.getElementById('modal');
 
 var defaultDuration = 500,
     edgeOffset = 30
-    myScroller = zenscroll.createScroller($modal, defaultDuration, edgeOffset),
+myScroller = zenscroll.createScroller($modal, defaultDuration, edgeOffset),
     x = 0;
 
-function scrollDown () {
+function scrollDown() {
     x = x + window.innerHeight - 150;
 
     myScroller.toY(x);
 }
 
-function scrollUp () {
+function scrollUp() {
     x = x - window.innerHeight + 150;
 
     if (x <= 0) {
@@ -53,7 +52,7 @@ function getAndParseRss() {
         $rssInput.insertAdjacentHTML('beforeend', 'Loading...');
 
         $.ajax(RSS_URL, {
-            accepts: {xml: 'application/rss+xml'},
+            accepts: { xml: 'application/rss+xml' },
             dataType: 'xml',
             success: function (data) {
                 try {
@@ -61,18 +60,18 @@ function getAndParseRss() {
 
                     $(data).find('item').each(function (index) {
                         var $item = $(this),
-                        title = $item.find('title').text(),
-                        link = $item.find('link').text();
+                            title = $item.find('title').text(),
+                            link = $item.find('link').text();
 
-                        articlesList += '<li>' + title + ' | <a id="id-article-id-'+ index +'" href="#article-id-'+ index +'" class="article-mode" mercury-url="' + link + '">Link<a></li>';
+                        articlesList += '<li>' + title + ' | <a id="id-article-id-' + index + '" href="#article-id-' + index + '" class="article-mode" mercury-url="' + link + '">Link<a></li>';
                     });
 
                     articlesList += '</ul>';
-    
+
                     $main.insertAdjacentHTML('beforeend', articlesList);
 
                     loadArticle();
-    
+
                 } catch (error) {
                     console.error(error);
                     // Detect errors on Kindle, since there's no console there
@@ -99,9 +98,9 @@ function isDev() {
     }
 }
 
-function isParameter(param) {    
+function isParameter(param) {
     var currUrl = location.href;
-    
+
     console.log('is param?', currUrl.indexOf(param) > -1 ? true : false);
     return currUrl.indexOf(param) > -1 ? true : false;
 }
@@ -115,65 +114,77 @@ function getArticleId() {
 }
 
 function loadArticle() {
+    console.log('loadArticle');
     var $body = document.querySelector('body');
+    var $html = document.querySelector('html');
+    var $content = document.querySelector('#content');
     
-    var bodyScroll = zenscroll.createScroller($body, defaultDuration, edgeOffset);
-    bodyScroll.toY(0);
+    $body.classList.add('loading');
+    $body.classList.add('overflow');
+    $html.classList.add('overflow');
 
-    //     createModal($modal);
+    var contentScroll = zenscroll.createScroller($content, defaultDuration, edgeOffset);
+    contentScroll.toY(0);
 
-    // if (isParameter('article-id-')) {
-    //     console.warn('loading article...');
+    setTimeout(function () {
 
-    //     var $article = document.getElementById('id-' + getArticleId()),
-    //         url = CORS + MERCURY + $article.getAttribute('mercury-url');
+        createModal($modal);
 
-    //     // Clean modal before loading new article
-    //     $modal.innerHTML = "";
-    //     $body.classList.add('modal-opened');
-    //     $modal.insertAdjacentHTML('beforeend', 'Loading article...');
+        if (isParameter('article-id-')) {
+            console.warn('loading article...');
 
-    //     try {
-    //         // Call new article URL
-    //         $.ajax({
-    //             url: url,
-    //             type: 'GET',
-    //             success: function(res) {
+            var $article = document.getElementById('id-' + getArticleId()),
+                url = CORS + MERCURY + $article.getAttribute('mercury-url');
 
-    //                 $modal.innerHTML = "";
+            // Clean modal before loading new article
+            $modal.innerHTML = "";
+            $body.classList.add('modal-opened');
+            $body.classList.remove('loading');
+            $body.classList.remove('overflow');
+            $html.classList.remove('overflow');
+            $modal.insertAdjacentHTML('beforeend', 'Loading article...');
 
-    //                 res = res.split('<main class="hg-article-container" role="main">');
-    //                 res = res[1];
+            try {
+                // Call new article URL
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function (res) {
 
-    //                 // Fix <amp-img> to <img>
-    //                 if (res.indexOf('amp-img') > -1) {
-    //                     res = res.replace(/amp-img/g, 'img');
-    //                 }
-                    
-    //                 $modal.insertAdjacentHTML('beforeend', res);
-    //             }
-    //         });
-    //     } catch (error) {
-    //         alert(error);
-    //     }
+                        $modal.innerHTML = "";
 
-    // } else {
-    //     // hide modal box
-    //     console.warn('no article to be shown, hiding modal...');
+                        res = res.split('<main class="hg-article-container" role="main">');
+                        res = res[1];
 
-    //     $modal.innerHTML = "";
-    //     $body.classList.remove('modal-opened');
-    // }
+                        // Fix <amp-img> to <img>
+                        if (res.indexOf('amp-img') > -1) {
+                            res = res.replace(/amp-img/g, 'img');
+                        }
+
+                        $modal.insertAdjacentHTML('beforeend', res);
+                    }
+                });
+            } catch (error) {
+                alert(error);
+            }
+
+        } else {
+            // hide modal box
+            console.warn('no article to be shown, hiding modal...');
+
+            $modal.innerHTML = "";
+            $body.classList.remove('modal-opened');
+            $body.classList.remove('overflow');
+            $html.classList.remove('overflow');
+            $body.classList.remove('loading');
+        }
+
+        console.log('settimeout ended');
+    }, 5000);
 }
 
 function createModal($modal) {
-    var $controls = document.getElementById('article-controls');
-
     $modal.style.height = window.innerHeight - 45;
-
-    console.log('window height', window.innerHeight);
-    console.log('controls height', $controls.offsetHeight);
-    console.log(window.innerHeight - $controls.offsetHeight);
 }
 
 $(document).ready(function () {
@@ -181,21 +192,21 @@ $(document).ready(function () {
         getAndParseRss();
     }
 
-    $('#scroll-up').on('click', function() {
+    $('#scroll-up').on('click', function () {
         scrollUp();
     });
 
-    $('#scroll-down').on('click', function() {
+    $('#scroll-down').on('click', function () {
         scrollDown();
     });
 
-    $('#go-top').on('click', function() {
+    $('#go-top').on('click', function () {
         goTop();
     });
 });
 
-window.onhashchange = function() { 
+window.onhashchange = function () {
     console.info('onhashchange event');
-    
+
     loadArticle();
 }
